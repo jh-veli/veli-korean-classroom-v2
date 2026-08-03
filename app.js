@@ -88,7 +88,11 @@
     const button = document.createElement('button');
     button.className = 'char-card';
     button.innerHTML = `<strong>${char}</strong><small>${sub}</small>`;
-    button.addEventListener('click', click);
+    button.addEventListener('click', () => {
+      button.parentElement.querySelectorAll('.char-card').forEach(card => card.classList.remove('active'));
+      button.classList.add('active');
+      click();
+    });
     return button;
   }
 
@@ -96,31 +100,20 @@
     const cg = document.getElementById('consonantGrid');
     consonants.forEach(([char,name,sound]) => {
       cg.appendChild(makeCard(char,sound,() => {
-        document.getElementById('consonantDetail').textContent = `${char} · ${name} · ${sound}`;
+        document.getElementById('consonantDetail').innerHTML = `<strong>${char}</strong><span>${name}</span><small>${sound}</small>`;
       }));
     });
     const vg = document.getElementById('vowelGrid');
     vowels.forEach(([char,sound]) => {
       vg.appendChild(makeCard(char,sound,() => {
-        document.getElementById('vowelDetail').textContent = `${char} · ${sound}`;
+        document.getElementById('vowelDetail').innerHTML = `<strong>${char}</strong><small>${sound}</small>`;
       }));
     });
     const bg = document.getElementById('batchimGroups');
     batchimGroups.forEach(([sound,chars,desc]) => {
-      const box = document.createElement('button');
-      box.type = 'button';
+      const box = document.createElement('div');
       box.className = 'batchim-group';
-      box.setAttribute('aria-pressed','false');
       box.innerHTML = `<strong>${sound}</strong><span>${chars} · ${desc}</span>`;
-      box.addEventListener('click',() => {
-        bg.querySelectorAll('.batchim-group').forEach(item => {
-          item.classList.remove('active');
-          item.setAttribute('aria-pressed','false');
-        });
-        box.classList.add('active');
-        box.setAttribute('aria-pressed','true');
-        document.getElementById('batchimDetail').innerHTML = `<strong>${sound}</strong><span>${chars}</span><small>${desc}</small>`;
-      });
       bg.appendChild(box);
     });
   }

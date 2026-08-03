@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#6759c8">
+  <meta name="theme-color" content="#138a7e">
   <title>Veli Korean Classroom</title>
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
   <main class="page">
@@ -21,7 +21,9 @@
       <div class="eyebrow">1. CONSONANTS</div>
       <h2>자음 · Consonants</h2>
       <p class="description">기본 자음과 쌍자음을 선택해 이름과 소리를 확인하세요.</p>
-      <div class="detail" id="consonantDetail">자음 카드를 눌러 보세요.</div>
+      <div class="pronunciation-detail consonant-detail" id="consonantDetail" aria-live="polite">
+        <span>자음 카드를 눌러 보세요.</span>
+      </div>
       <div class="grid" id="consonantGrid"></div>
     </section>
 
@@ -29,17 +31,16 @@
       <div class="eyebrow">2. VOWELS</div>
       <h2>모음 · Vowels</h2>
       <p class="description">기본 모음과 결합 모음을 선택해 소리를 확인하세요.</p>
-      <div class="detail" id="vowelDetail">모음 카드를 눌러 보세요.</div>
+      <div class="pronunciation-detail vowel-detail" id="vowelDetail" aria-live="polite">
+        <span>모음 카드를 눌러 보세요.</span>
+      </div>
       <div class="grid" id="vowelGrid"></div>
     </section>
 
     <section class="section">
       <div class="eyebrow">3. FINAL CONSONANTS</div>
       <h2>받침 · Final consonants</h2>
-      <p class="description">받침 글자는 여러 개지만 대표 끝소리는 7가지입니다. 끝소리 행을 눌러 해당 받침을 확인하세요.</p>
-      <div class="batchim-detail" id="batchimDetail" aria-live="polite">
-        <span>받침 끝소리를 선택해 주세요.</span>
-      </div>
+      <p class="description">받침 글자는 여러 개지만 대표 끝소리는 7가지입니다.</p>
       <div class="batchim-groups" id="batchimGroups"></div>
     </section>
 
@@ -163,8 +164,8 @@
     <footer>Don’t build an app. Build a better classroom.</footer>
   </main>
 
-  <script src="app.js?v=4"></script>
-  <script src="dictionary.js?v=4"></script>
-  <script src="pdf.js?v=4"></script>
+  <script src="app.js?v=5"></script>
+  <script src="dictionary.js?v=5"></script>
+  <script src="pdf.js?v=5"></script>
 </body>
 </html>
