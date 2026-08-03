@@ -7,7 +7,6 @@
 - 음절 블록 조립
 - 카드 방식 단어 만들기
 - 직접 타이핑 → 카드 편집기 전송
-- A1 982개 미니사전
 - 외부 사전 연결
 - 수업 요약 PDF 인쇄
 
@@ -17,4 +16,3 @@
 - `app.js`
 - `dictionary.js`
 - `pdf.js`
-- `mini_dictionary.json`

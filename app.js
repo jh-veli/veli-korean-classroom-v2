@@ -35,8 +35,6 @@
   ];
 
   const presets = ['안녕하세요','한글','안녕','사랑','감사','밥','물','한국','친구','엄마','아빠','학교','학생'];
-  let dictionaryEntries = [];
-  let dictionaryMap = new Map();
 
   function assemble(cho, jung, jong='') {
     const ci = CHO.indexOf(cho);
@@ -146,44 +144,13 @@
 
   function currentWord() { return tokensToWord(wordTokens); }
 
-  function displayDictionary(word) {
-    const normalized = String(word || '').trim();
-    const matches = dictionaryMap.get(normalized) || [];
-    document.getElementById('miniWord').textContent = normalized || '단어를 검색해 주세요.';
-    if (!normalized) {
-      document.getElementById('miniMeaning').textContent = '';
-      document.getElementById('miniMeta').textContent = '';
-      document.getElementById('miniRoman').textContent = '';
-      document.getElementById('miniNote').textContent = 'A1 기본 어휘 982개를 검색할 수 있습니다.';
-      return;
-    }
-    if (!matches.length) {
-      document.getElementById('miniMeaning').textContent = '미니사전에 등록되지 않은 표현입니다.';
-      document.getElementById('miniMeta').textContent = '';
-      document.getElementById('miniRoman').textContent = romanizeTokens(decompose(normalized));
-      document.getElementById('miniNote').textContent = '자세한 뜻과 발음은 외부 사전에서 확인하세요.';
-      return;
-    }
-    const first = matches[0];
-    const meanings = [...new Set(matches.map(x => x.meaning).filter(Boolean))].join(' / ');
-    const metas = [...new Set(matches.map(x => `${x.pos_ko || x.pos} · ${x.level || 'A1'}`))].join(' / ');
-    document.getElementById('miniMeaning').textContent = meanings;
-    document.getElementById('miniMeta').textContent = metas;
-    document.getElementById('miniRoman').textContent = first.roman || romanizeTokens(decompose(first.word));
-    document.getElementById('miniNote').textContent = '자세한 뜻, 예문과 발음은 외부 사전에서 확인하세요.';
-    if (document.activeElement !== document.getElementById('miniSearch')) {
-      document.getElementById('miniSearch').value = first.word;
-    }
-  }
-
   function renderPresets() {
     const row = document.getElementById('presetRow');
     row.innerHTML = '';
     presets.forEach(word => {
-      const entry = dictionaryMap.get(word)?.[0];
       const button = document.createElement('button');
       button.className = 'preset' + (currentWord() === word ? ' active' : '');
-      button.innerHTML = `${word}<small>${entry?.roman || romanizeTokens(decompose(word))}</small>`;
+      button.innerHTML = `${word}<small>${romanizeTokens(decompose(word))}</small>`;
       button.addEventListener('click',() => setBuilderWord(word));
       row.appendChild(button);
     });
@@ -228,7 +195,6 @@
     cards.appendChild(add);
     document.getElementById('wordRoman').textContent = romanizeTokens(wordTokens);
     renderWordEditor();
-    displayDictionary(currentWord());
   }
 
   function renderWordEditor() {
@@ -258,48 +224,6 @@
       b.addEventListener('click',() => { token[wordSlot] = char; renderWordBuilder(); });
       keypad.appendChild(b);
     });
-  }
-
-  function renderSuggestions(query) {
-    const box = document.getElementById('miniSuggestions');
-    const q = query.trim();
-    box.innerHTML = '';
-    if (!q) { box.classList.remove('open'); return; }
-    const unique = new Map();
-    dictionaryEntries.filter(x => x.word.startsWith(q) || x.word.includes(q)).forEach(x => {
-      if (!unique.has(x.word)) unique.set(x.word,x);
-    });
-    [...unique.values()].slice(0,8).forEach(entry => {
-      const b = document.createElement('button');
-      b.className = 'suggestion';
-      b.innerHTML = `<strong>${entry.word}</strong><span>${entry.meaning}</span><small>${entry.pos_ko || entry.pos} · ${entry.level}</small>`;
-      b.addEventListener('click',() => {
-        document.getElementById('miniSearch').value = entry.word;
-        box.classList.remove('open');
-        displayDictionary(entry.word);
-      });
-      box.appendChild(b);
-    });
-    box.classList.toggle('open',box.children.length > 0);
-  }
-
-  async function loadDictionary() {
-    try {
-      const response = await fetch('./mini_dictionary.json',{cache:'no-store'});
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data = await response.json();
-      dictionaryEntries = Array.isArray(data) ? data : (data.entries || []);
-      dictionaryMap = new Map();
-      dictionaryEntries.forEach(entry => {
-        if (!dictionaryMap.has(entry.word)) dictionaryMap.set(entry.word,[]);
-        dictionaryMap.get(entry.word).push(entry);
-      });
-      renderWordBuilder();
-    } catch (error) {
-      document.getElementById('miniWord').textContent = '미니사전을 불러오지 못했습니다.';
-      document.getElementById('miniNote').textContent = 'mini_dictionary.json 파일 위치를 확인하세요.';
-      console.error(error);
-    }
   }
 
   function renderTyping() {
@@ -345,18 +269,6 @@
     if(!wordTokens.length)return;wordTokens.splice(activeIndex,1);activeIndex=Math.max(0,Math.min(activeIndex,wordTokens.length-1));renderWordBuilder();
   });
 
-  document.getElementById('miniSearch').addEventListener('input',e => renderSuggestions(e.target.value));
-  document.getElementById('miniSearchButton').addEventListener('click',() => displayDictionary(document.getElementById('miniSearch').value));
-  document.getElementById('miniToBuilder').addEventListener('click',() => setBuilderWord(document.getElementById('miniSearch').value));
-  document.getElementById('miniKrdict').addEventListener('click',() => {
-    document.getElementById('externalDictInput').value=document.getElementById('miniSearch').value||currentWord();
-    document.getElementById('openKrdict').click();
-  });
-  document.getElementById('miniNaver').addEventListener('click',() => {
-    document.getElementById('externalDictInput').value=document.getElementById('miniSearch').value||currentWord();
-    document.getElementById('openNaver').click();
-  });
-
   document.getElementById('typingInput').addEventListener('input',renderTyping);
   document.getElementById('typingConvert').addEventListener('click',renderTyping);
   document.getElementById('typingToBuilder').addEventListener('click',() => {
@@ -370,5 +282,5 @@
     document.getElementById('typingInput').value='';renderTyping();
   });
 
-  loadDictionary();
+  renderWordBuilder();
 })();
