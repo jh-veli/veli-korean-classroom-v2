@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6759c8">
+  <title>Veli Korean Classroom</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="brand">
+      <div class="brand-mark">VK</div>
+      <div>
+        <h1>Veli Korean Classroom</h1>
+        <p>실시간 한국어 수업을 위한 개인 맞춤형 교실 도구</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="eyebrow">1. CONSONANTS</div>
+      <h2>자음 · Consonants</h2>
+      <p class="description">기본 자음과 쌍자음을 선택해 이름과 소리를 확인하세요.</p>
+      <div class="detail" id="consonantDetail">자음 카드를 눌러 보세요.</div>
+      <div class="grid" id="consonantGrid"></div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">2. VOWELS</div>
+      <h2>모음 · Vowels</h2>
+      <p class="description">기본 모음과 결합 모음을 선택해 소리를 확인하세요.</p>
+      <div class="detail" id="vowelDetail">모음 카드를 눌러 보세요.</div>
+      <div class="grid" id="vowelGrid"></div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">3. FINAL CONSONANTS</div>
+      <h2>받침 · Final consonants</h2>
+      <p class="description">받침 글자는 여러 개지만 대표 끝소리는 7가지입니다.</p>
+      <div class="batchim-groups" id="batchimGroups"></div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">4. SYLLABLE BLOCK</div>
+      <h2>음절 블록 조립 · Build one syllable</h2>
+      <p class="description">자음, 모음, 받침을 차례로 선택하면 글자가 완성됩니다.</p>
+
+      <div class="builder-layout">
+        <div>
+          <div class="syllable-block">
+            <div class="cell consonant"><small>자음</small><span id="demoCho">ㄱ</span></div>
+            <div class="cell vowel"><small>모음</small><span id="demoJung">ㅏ</span></div>
+            <div class="cell final"><small>받침</small><span id="demoJong"></span></div>
+          </div>
+          <div class="assembled">
+            <strong id="demoResult">가</strong>
+            <span id="demoRoman">ga</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="slot-tabs">
+            <button class="slot-tab active" data-demo-slot="cho">자음</button>
+            <button class="slot-tab" data-demo-slot="jung">모음</button>
+            <button class="slot-tab" data-demo-slot="jong">받침</button>
+          </div>
+          <div class="keypad" id="demoKeypad"></div>
+          <div class="actions">
+            <button class="btn" id="demoReset">↺ Reset</button>
+            <button class="btn warning" id="demoRemoveFinal">× Remove 받침</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="wordBuilderSection">
+      <div class="eyebrow">5. WORD BUILDER</div>
+      <h2>단어 만들기 · Build words</h2>
+      <p class="description">카드로 조립하거나 직접 타이핑한 단어를 카드 편집기로 보낼 수 있습니다.</p>
+
+      <div class="mode-tabs">
+        <button class="mode-btn active" data-mode="cards">카드로 만들기</button>
+        <button class="mode-btn" data-mode="typing">직접 타이핑하기</button>
+      </div>
+
+      <div id="cardsMode">
+        <div class="preset-row" id="presetRow"></div>
+
+        <div class="mini-dictionary">
+          <div class="mini-title">📖 내장 미니 단어장 · MINI DICTIONARY</div>
+          <div class="mini-search-wrap">
+            <div class="mini-search-row">
+              <input id="miniSearch" type="text" placeholder="한국어 단어 검색" autocomplete="off">
+              <button class="btn primary" id="miniSearchButton">검색</button>
+            </div>
+            <div class="suggestions" id="miniSuggestions"></div>
+          </div>
+
+          <div class="mini-result">
+            <div class="mini-word" id="miniWord">사전을 불러오는 중입니다.</div>
+            <div class="mini-meaning" id="miniMeaning"></div>
+            <div class="mini-meta" id="miniMeta"></div>
+            <div class="mini-roman" id="miniRoman"></div>
+            <div class="mini-note" id="miniNote"></div>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" id="miniToBuilder">카드로 보내기</button>
+            <button class="btn" id="miniKrdict">한국어기초사전</button>
+            <button class="btn" id="miniNaver">네이버 국어사전</button>
+          </div>
+        </div>
+
+        <div class="word-panel">
+          <div class="panel-title">내 단어 · MY WORD</div>
+          <div class="word-cards" id="wordCards"></div>
+          <div class="word-roman" id="wordRoman"></div>
+          <div class="actions">
+            <button class="btn" id="wordReset">↺ Reset</button>
+            <button class="btn" id="addSpace">␠ Add space</button>
+            <button class="btn warning" id="removeFinal">× Remove 받침</button>
+            <button class="btn warning" id="deleteSelected">× Delete selected</button>
+          </div>
+        </div>
+
+        <div class="word-editor" id="wordEditor"></div>
+      </div>
+
+      <div id="typingMode" class="typing-mode">
+        <div class="typing-row">
+          <input id="typingInput" type="text" placeholder="예: 키위, 안녕하세요, 저는 학생입니다">
+          <button class="btn primary" id="typingConvert">카드 변환</button>
+        </div>
+
+        <div class="typing-preview">
+          <div class="typing-korean" id="typingKorean">한글을 입력해 보세요.</div>
+          <div class="typing-roman" id="typingRoman"></div>
+          <div class="typed-cards" id="typedCards"></div>
+          <div class="actions">
+            <button class="btn primary" id="typingToBuilder">카드 편집기로 보내기</button>
+            <button class="btn" id="typingClear">지우기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">6. DICTIONARY LINKS</div>
+      <h2>사전 검색 · Dictionary</h2>
+      <p class="description">자세한 뜻, 예문과 발음은 외부 사전에서 확인하세요.</p>
+      <div class="external-dict">
+        <input id="externalDictInput" type="text" placeholder="예: 학교, 친구, 감사합니다">
+        <div class="actions">
+          <button class="btn primary" id="openKrdict">한국어기초사전</button>
+          <button class="btn" id="openNaver">네이버 국어사전</button>
+          <button class="btn" id="copyWord">단어 복사</button>
+        </div>
+        <div class="dict-status" id="dictStatus">단어를 입력한 뒤 사전을 여세요.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="eyebrow">7. LESSON SUMMARY</div>
+      <h2>오늘의 학습 요약 · Lesson Summary</h2>
+      <div class="summary-form">
+        <div class="form-two">
+          <label>학생 이름<input id="summaryStudent" type="text"></label>
+          <label>수업 날짜<input id="summaryDate" type="date"></label>
+        </div>
+        <label>오늘의 단어<textarea id="summaryWords" rows="4"></textarea></label>
+        <label>오늘의 문장<textarea id="summarySentences" rows="4"></textarea></label>
+        <label>발음 포인트<textarea id="summaryPronunciation" rows="4"></textarea></label>
+        <label>복습 / 숙제<textarea id="summaryHomework" rows="4"></textarea></label>
+        <label>다음 수업<textarea id="summaryNext" rows="3"></textarea></label>
+        <div class="actions">
+          <button class="btn primary" id="previewSummary">미리보기</button>
+          <button class="btn primary" id="printSummary">PDF로 저장</button>
+          <button class="btn" id="resetSummary">내용 지우기</button>
+        </div>
+      </div>
+      <div class="summary-preview" id="summaryPreview">입력 후 미리보기를 눌러 주세요.</div>
+    </section>
+
+    <footer>Don’t build an app. Build a better classroom.</footer>
+  </main>
+
+  <script src="app.js"></script>
+  <script src="dictionary.js"></script>
+  <script src="pdf.js"></script>
+</body>
+</html>
