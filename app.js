@@ -111,9 +111,20 @@
     });
     const bg = document.getElementById('batchimGroups');
     batchimGroups.forEach(([sound,chars,desc]) => {
-      const box = document.createElement('div');
+      const box = document.createElement('button');
+      box.type = 'button';
       box.className = 'batchim-group';
+      box.setAttribute('aria-pressed','false');
       box.innerHTML = `<strong>${sound}</strong><span>${chars} · ${desc}</span>`;
+      box.addEventListener('click',() => {
+        bg.querySelectorAll('.batchim-group').forEach(item => {
+          item.classList.remove('active');
+          item.setAttribute('aria-pressed','false');
+        });
+        box.classList.add('active');
+        box.setAttribute('aria-pressed','true');
+        document.getElementById('batchimDetail').innerHTML = `<strong>${sound}</strong><span>${chars}</span><small>${desc}</small>`;
+      });
       bg.appendChild(box);
     });
   }
