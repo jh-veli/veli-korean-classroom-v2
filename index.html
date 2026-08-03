@@ -36,7 +36,10 @@
     <section class="section">
       <div class="eyebrow">3. FINAL CONSONANTS</div>
       <h2>받침 · Final consonants</h2>
-      <p class="description">받침 글자는 여러 개지만 대표 끝소리는 7가지입니다.</p>
+      <p class="description">받침 글자는 여러 개지만 대표 끝소리는 7가지입니다. 끝소리 행을 눌러 해당 받침을 확인하세요.</p>
+      <div class="batchim-detail" id="batchimDetail" aria-live="polite">
+        <span>받침 끝소리를 선택해 주세요.</span>
+      </div>
       <div class="batchim-groups" id="batchimGroups"></div>
     </section>
 
@@ -47,7 +50,7 @@
 
       <div class="builder-layout">
         <div>
-          <div class="syllable-block">
+          <div class="syllable-block no-final" id="demoSyllableBlock">
             <div class="cell consonant"><small>자음</small><span id="demoCho">ㄱ</span></div>
             <div class="cell vowel"><small>모음</small><span id="demoJung">ㅏ</span></div>
             <div class="cell final"><small>받침</small><span id="demoJong"></span></div>
@@ -122,12 +125,13 @@
     <section class="section">
       <div class="eyebrow">6. DICTIONARY LINKS</div>
       <h2>사전 검색 · Dictionary</h2>
-      <p class="description">자세한 뜻, 예문과 발음은 외부 사전에서 확인하세요.</p>
+      <p class="description">한국어 또는 영어 단어를 입력하고 외부 사전에서 뜻, 예문과 발음을 확인하세요.</p>
       <div class="external-dict">
-        <input id="externalDictInput" type="text" placeholder="예: 학교, 친구, 감사합니다">
+        <input id="externalDictInput" type="text" placeholder="예: 학교, 친구, hello, computer">
         <div class="actions">
           <button class="btn primary" id="openKrdict">한국어기초사전</button>
           <button class="btn" id="openNaver">네이버 국어사전</button>
+          <button class="btn" id="openEnglishDict">네이버 영한사전</button>
           <button class="btn" id="copyWord">단어 복사</button>
         </div>
         <div class="dict-status" id="dictStatus">단어를 입력한 뒤 사전을 여세요.</div>

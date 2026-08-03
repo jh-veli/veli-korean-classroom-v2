@@ -3,6 +3,7 @@
 
   const krdictHome = 'https://krdict.korean.go.kr/eng/mainAction';
   const naverHome = 'https://ko.dict.naver.com/';
+  const englishDictHome = 'https://en.dict.naver.com/';
 
   const input = document.getElementById('externalDictInput');
   const status = document.getElementById('dictStatus');
@@ -43,6 +44,12 @@
     const value = word();
     openLink(value ? `${naverHome}#/search?query=${encodeURIComponent(value)}` : naverHome);
     status.textContent = value ? `네이버 국어사전에서 “${value}”를 열었습니다.` : '네이버 국어사전을 열었습니다.';
+  });
+
+  document.getElementById('openEnglishDict').addEventListener('click',() => {
+    const value = word();
+    openLink(value ? `${englishDictHome}#/search?query=${encodeURIComponent(value)}` : englishDictHome);
+    status.textContent = value ? `네이버 영한사전에서 “${value}”를 열었습니다.` : '네이버 영한사전을 열었습니다.';
   });
 
   document.getElementById('copyWord').addEventListener('click',async() => {

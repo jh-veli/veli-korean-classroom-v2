@@ -107,9 +107,20 @@
     });
     const bg = document.getElementById('batchimGroups');
     batchimGroups.forEach(([sound,chars,desc]) => {
-      const box = document.createElement('div');
+      const box = document.createElement('button');
+      box.type = 'button';
       box.className = 'batchim-group';
+      box.setAttribute('aria-pressed','false');
       box.innerHTML = `<strong>${sound}</strong><span>${chars} · ${desc}</span>`;
+      box.addEventListener('click',() => {
+        bg.querySelectorAll('.batchim-group').forEach(item => {
+          item.classList.remove('active');
+          item.setAttribute('aria-pressed','false');
+        });
+        box.classList.add('active');
+        box.setAttribute('aria-pressed','true');
+        document.getElementById('batchimDetail').innerHTML = `<strong>${sound}</strong><span>${chars}</span><small>${desc}</small>`;
+      });
       bg.appendChild(box);
     });
   }
@@ -121,6 +132,7 @@
     document.getElementById('demoCho').textContent = demo.cho;
     document.getElementById('demoJung').textContent = demo.jung;
     document.getElementById('demoJong').textContent = demo.jong;
+    document.getElementById('demoSyllableBlock').classList.toggle('no-final',!demo.jong);
     document.getElementById('demoResult').textContent = assemble(demo.cho,demo.jung,demo.jong);
     document.getElementById('demoRoman').textContent = romanSyllable({type:'syllable',...demo});
     document.querySelectorAll('[data-demo-slot]').forEach(b => b.classList.toggle('active',b.dataset.demoSlot===demoSlot));
