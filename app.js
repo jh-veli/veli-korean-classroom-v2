@@ -18,6 +18,10 @@
     ['ㅟ','wi'],['ㅠ','yu'],['ㅡ','eu'],['ㅢ','ui'],['ㅣ','i']
   ];
 
+  const basicConsonants = new Set(['ㄱ','ㄴ','ㄷ','ㄹ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ']);
+  const basicVowels = new Set(['ㅏ','ㅑ','ㅓ','ㅕ','ㅗ','ㅛ','ㅜ','ㅠ','ㅡ','ㅣ']);
+  function isBasicLetter(char) { return basicConsonants.has(char) || basicVowels.has(char); }
+
   const finalRoman = {
     '':'','ㄱ':'k','ㄲ':'k','ㄳ':'k','ㄴ':'n','ㄵ':'n','ㄶ':'n','ㄷ':'t','ㄹ':'l','ㄺ':'k','ㄻ':'m',
     'ㄼ':'l','ㄽ':'l','ㄾ':'l','ㄿ':'p','ㅀ':'l','ㅁ':'m','ㅂ':'p','ㅄ':'p','ㅅ':'t','ㅆ':'t',
@@ -86,7 +90,7 @@
 
   function makeCard(char, sub, click) {
     const button = document.createElement('button');
-    button.className = 'char-card';
+    button.className = 'char-card' + (isBasicLetter(char) ? ' basic-char' : '');
     button.innerHTML = `<strong>${char}</strong><small>${sub}</small>`;
     button.addEventListener('click', () => {
       button.parentElement.querySelectorAll('.char-card').forEach(card => card.classList.remove('active'));
@@ -147,7 +151,7 @@
                 [['','none'], ...JONG.slice(1).map(x => [x,finalRoman[x]])];
     items.forEach(([char,sub]) => {
       const b = document.createElement('button');
-      b.className = 'key' + ((demo[demoSlot] || '') === char ? ' active' : '') + (char === '' ? ' none' : '');
+      b.className = 'key' + (isBasicLetter(char) ? ' basic-char' : '') + ((demo[demoSlot] || '') === char ? ' active' : '') + (char === '' ? ' none' : '');
       b.innerHTML = `<strong>${char || '받침 없음'}</strong><small>${sub}</small>`;
       b.addEventListener('click',() => { demo[demoSlot] = char; renderDemo(); });
       keypad.appendChild(b);
@@ -235,7 +239,7 @@
                 [['','none'], ...JONG.slice(1).map(x => [x,finalRoman[x]])];
     items.forEach(([char,sub]) => {
       const b = document.createElement('button');
-      b.className = 'key' + ((token[wordSlot] || '') === char ? ' active' : '') + (char === '' ? ' none' : '');
+      b.className = 'key' + (isBasicLetter(char) ? ' basic-char' : '') + ((token[wordSlot] || '') === char ? ' active' : '') + (char === '' ? ' none' : '');
       b.innerHTML = `<strong>${char || '받침 없음'}</strong><small>${sub}</small>`;
       b.addEventListener('click',() => { token[wordSlot] = char; renderWordBuilder(); });
       keypad.appendChild(b);
